@@ -1,0 +1,33 @@
+<?php
+
+namespace ObjectiveWP\Framework\Tests\Unit\Application;
+
+use ObjectiveWP\Framework\Contracts\Foundation\Application as ApplicationContract;
+use ObjectiveWP\Framework\Foundation\Application as BaseApplication;
+use ObjectiveWP\Framework\Foundation\Test\TestCase;
+use ObjectiveWP\Framework\Contracts\Kernel;
+use ObjectiveWP\Framework\Foundation\Application;
+
+class App extends Application {
+
+    /**
+     * A list of the kernels to bootstrap
+     * @return Kernel[]
+     */
+    protected function kernels()
+    {
+        return [
+
+        ];
+    }
+}
+
+class TestApplication extends TestCase
+{
+    public function test_container()
+    {
+        $app = new App('0.0.1', "example/", []);
+        $this->assertTrue($app === $app->getContainer()->get(ApplicationContract::class), "Application should be resolvable");
+        $this->assertTrue($app === $app->getContainer()->get(BaseApplication::class), "Application should be resolvable");
+    }
+}

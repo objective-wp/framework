@@ -1,0 +1,32 @@
+{
+  "name": "objective-wp/framework",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Louisville Geek",
+      "email": "jasong@lougeek.com"
+    }
+  ],
+  "require": {
+    "php-di/php-di": "^5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "ObjectiveWP\\Framework\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ObjectiveWP\\Framework\\Tests\\": "tests/"
+    },
+    "files": ["src/Foundation/Test/Hooks/index.php"]
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "npm i"
+    ]
+  }
+}
