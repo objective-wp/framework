@@ -1,6 +1,12 @@
 {
   "name": "objective-wp/framework",
+  "keywords": ["objective", "wordpress", "framework", "objective-wp"],
   "type": "library",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/objective-wp/framework/issues",
+    "source": "https://github.com/objective-wp/framework"
+  },
   "authors": [
     {
       "name": "Louisville Geek",
@@ -28,5 +34,7 @@
     "post-install-cmd": [
       "npm i"
     ]
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
