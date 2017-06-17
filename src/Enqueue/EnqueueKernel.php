@@ -34,7 +34,7 @@ abstract class EnqueueKernel implements Kernel
      *
      * @var EnqueueHook[]
      */
-    public abstract function hooks();
+    public abstract function enqueues();
 
 
     /**
@@ -44,7 +44,7 @@ abstract class EnqueueKernel implements Kernel
      */
     public function bootstrap()
     {
-        foreach ($this->hooks() as $enqueue) {
+        foreach ($this->enqueues() as $enqueue) {
             /** @var EnqueueHook $newEnqueue */
             $newEnqueue = new $enqueue;
 

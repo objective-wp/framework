@@ -31,7 +31,7 @@ abstract class ActionKernel implements Kernel
     /**
      * The actions to load
      *
-     * @return array
+     * @return ActionHook[]
      */
     protected abstract function actions() : array;
 
