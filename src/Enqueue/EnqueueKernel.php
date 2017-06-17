@@ -1,5 +1,5 @@
 <?php
-namespace ObjectiveWP\Framework\Loaders;
+namespace ObjectiveWP\Framework\Enqueue;
 
 use ObjectiveWP\EnfoldChild\Enqueue\Enqueue;
 use ObjectiveWP\EnfoldChild\Framework\Enqueue\Hooks\JsApplication;

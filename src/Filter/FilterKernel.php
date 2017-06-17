@@ -1,5 +1,5 @@
 <?php
-namespace ObjectiveWP\EnfoldChild\Loaders;
+namespace ObjectiveWP\Framework\Filter;
 
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
 use ObjectiveWP\Framework\Contracts\Hooks\HasArguments;

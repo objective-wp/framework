@@ -17,15 +17,15 @@ use ObjectiveWP\Framework\Contracts\Kernel;
 abstract class ActionKernel implements Kernel
 {
 
-    protected $plugin;
+    protected $app;
 
     /**
      * ActionLoader constructor.
-     * @param Application $plugin
+     * @param Application $app
      */
-    public function __construct(Application $plugin)
+    public function __construct(Application $app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class ActionKernel implements Kernel
     {
         foreach ($this->actions() as $action) {
             /** @var ActionHook $newAction */
-            $newAction = $this->plugin->getContainer()->get($action);
+            $newAction = $this->app->getContainer()->get($action);
 
             $priority = 10;
             if($newAction instanceof HasPriority)

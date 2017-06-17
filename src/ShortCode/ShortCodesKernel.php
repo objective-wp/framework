@@ -1,15 +1,16 @@
 <?php
-namespace ObjectiveWP\EnfoldChild\Loaders;
+namespace ObjectiveWP\EnfoldChild\ShortCode;
 
 use ObjectiveWP\EnfoldChild\ShortCodes\ShortCode;
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
+use ObjectiveWP\Framework\Contracts\Kernel;
 
 /**
  * Class ShortCodesLoader
  *
  * @package ObjectiveWP\EnfoldChild\Loaders
  */
-abstract class ShortCodesKernel implements Loader
+abstract class ShortCodesKernel implements Kernel
 {
 
     protected $plugin;
