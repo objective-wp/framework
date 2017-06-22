@@ -18,15 +18,15 @@ use ObjectiveWP\Framework\Enqueue\EnqueueHook;
 abstract class EnqueueKernel implements Kernel
 {
 
-    protected $plugin;
+    protected $app;
 
     /**
      * EnqueueKernel constructor.
-     * @param Application $plugin
+     * @param Application $app
      */
-    public function __construct(Application $plugin)
+    public function __construct(Application $app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class EnqueueKernel implements Kernel
     {
         foreach ($this->enqueues() as $enqueue) {
             /** @var EnqueueHook $newEnqueue */
-            $newEnqueue = new $enqueue;
+            $newEnqueue = $this->app->getContainer()->get($enqueue);
 
             $priority = 10;
             if($newEnqueue instanceof HasPriority)
