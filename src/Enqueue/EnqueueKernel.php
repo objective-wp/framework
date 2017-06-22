@@ -32,7 +32,7 @@ abstract class EnqueueKernel implements Kernel
     /**
      * The enqueues to load
      *
-     * @var EnqueueHook[]
+     * @return EnqueueHook[]
      */
     public abstract function enqueues();
 
