@@ -37,7 +37,17 @@ abstract class Application implements ApplicationContract
      */
     protected $bootStrapFileLocation;
 
+    /**
+     * The application's post type prefix.
+     * @var string
+     */
     protected $postTypePrefix;
+
+    /**
+     * The application's uri
+     * @var string
+     */
+    protected $appUri;
     /**
      * Application constructor.
      * @param string $version
@@ -46,7 +56,7 @@ abstract class Application implements ApplicationContract
      * @param string $bootStrapFileLocation
      * @param array $definitions
      * @param string $prefix
-     * @param string $postTypePrefix
+     * @param string $postTypePrefix Keep it very short. post types can only have a maximum of 20 characters
      * @param string $textDomain
      * @param ContainerBuilder $containerBuilder
      */
@@ -54,6 +64,7 @@ abstract class Application implements ApplicationContract
         $this->version = $version;
         $this->applicationPath = $applicationPath;
         $this->_prefix = $prefix;
+        $this->appUri = $baseUri;
         $this->textDomain = $textDomain;
         $this->postTypePrefix = $postTypePrefix;
         $this->bootStrapFileLocation = $bootStrapFileLocation;
@@ -79,7 +90,7 @@ abstract class Application implements ApplicationContract
      * Get the application's Text Domain
      * @return string The Text Domain
      */
-    public function getTextDomain() {
+    public function getTextDomain() : string {
         return $this->textDomain;
     }
 
@@ -87,7 +98,7 @@ abstract class Application implements ApplicationContract
      * Gets the js namespace.
      * @return string
      */
-    public function getJsNamespace() {
+    public function getJsNamespace() : string {
         return $this->jsNamespace;
     }
 
@@ -95,7 +106,7 @@ abstract class Application implements ApplicationContract
      * Get the prefix for all registered post types in this application
      * @return string
      */
-    public function getPostTypePrefix() {
+    public function getPostTypePrefix() : string {
         return $this->postTypePrefix;
     }
 
@@ -105,7 +116,7 @@ abstract class Application implements ApplicationContract
      * @param $postType
      * @return string The prefixed post type
      */
-    public function prefixPostType($postType) {
+    public function prefixPostType(string $postType) : string {
         return $this->postTypePrefix . '_' . $postType;
     }
 
@@ -113,7 +124,7 @@ abstract class Application implements ApplicationContract
      * Get the application's prefix
      * @return string The prefix
      */
-    public function getPrefix() {
+    public function getPrefix() : string {
         return $this->_prefix;
     }
 
@@ -121,7 +132,7 @@ abstract class Application implements ApplicationContract
      * Gets the file location of the main entry point for this application
      * @return string
      */
-    public function getBootstrapFileLocation() {
+    public function getBootstrapFileLocation() : string {
         return $this->bootStrapFileLocation;
     }
 
@@ -130,7 +141,7 @@ abstract class Application implements ApplicationContract
      * @param string $value The value to prefix
      * @return string The prefixed value
      */
-    public function prefix($value) {
+    public function prefix($value) : string {
         return $this->_prefix . '_' .  $value;
     }
 
@@ -153,10 +164,18 @@ abstract class Application implements ApplicationContract
     }
 
     /**
+     * Gets the application's absolute uri.
+     * @return string
+     */
+    public function getApplicationUri() : string {
+        return $this->appUri;
+    }
+
+    /**
      * Gets the plugin's DI Container
      * @return Container
      */
-    public function getContainer()
+    public function getContainer() : Container
     {
         return $this->container;
     }
