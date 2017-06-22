@@ -10,7 +10,7 @@ use ObjectiveWP\Framework\Contracts\Hooks\CanHandle;
  *
  * @package ObjectiveWP\EnfoldChild\ShortCode
  */
-abstract class ShortCode implements HasTag, CanHandle
+abstract class ShortCode implements HasTag
 {
     /**
      * Get the tag of the short code
@@ -21,19 +21,10 @@ abstract class ShortCode implements HasTag, CanHandle
 
 
     /**
-     * Call the ShortCode.
-     * @param array $attributes
-     * @return string
-     */
-    public function doHandle($attributes) {
-        return call_user_func_array([$this, 'handle'],$attributes);
-    }
-
-    /**
      * Used for adding the short code function in.
      *
      * @param array $attributes
      * @return string
      */
-    public abstract function handle(...$attributes) : string;
+    public abstract function handle($attributes) : string;
 }
