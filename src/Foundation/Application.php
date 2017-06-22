@@ -56,6 +56,8 @@ abstract class Application implements ApplicationContract
         $this->_prefix = $prefix;
         $this->textDomain = $textDomain;
         $this->postTypePrefix = $postTypePrefix;
+        $this->bootStrapFileLocation = $bootStrapFileLocation;
+        $this->jsNamespace = $this->calculateJsNamespace($applicationPath);
         if($containerBuilder == null)
             $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions([

@@ -14,7 +14,16 @@ class ApplicationTest extends TestCase
     public function test_container()
     {
         /** @var Application $app */
-        $app = new class('0.0.1', "example/", []) extends Application {
+        $app = new class('0.0.1',
+            'example/',
+            'http://example/',
+            'example/index.php',
+            [
+                // add service providers here
+            ],
+            'example_application',
+            'eapt',
+            'text-domain') extends Application {
 
             /**
              * A list of the kernels to bootstrap
