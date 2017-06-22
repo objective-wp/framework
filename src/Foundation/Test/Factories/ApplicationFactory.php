@@ -1,6 +1,6 @@
 <?php
 
-namespace ObjectiveWP\Framework\Foundation\Factories;
+namespace ObjectiveWP\Framework\Foundation\Test\Factories;
 
 use ObjectiveWP\Framework\Contracts\Kernel;
 use ObjectiveWP\Framework\Foundation\Application;

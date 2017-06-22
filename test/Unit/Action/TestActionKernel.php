@@ -9,7 +9,7 @@ use ObjectiveWP\Framework\Action\ActionKernel;
 use ObjectiveWP\Framework\Contracts\Kernel;
 use ObjectiveWP\Framework\Foundation\Application;
 use Mockery;
-use ObjectiveWP\Framework\Foundation\Factories\ActionKernelFactory;
+use ObjectiveWP\Framework\Foundation\Test\Factories\ActionKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 
 class TestActionKernel extends TestCase
@@ -34,11 +34,6 @@ class TestActionKernel extends TestCase
 
     }
 
-
-    public function tearDown()
-    {
-        Mockery::close();
-    }
 }
 
 

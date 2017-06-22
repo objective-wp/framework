@@ -1,7 +1,6 @@
 <?php
-namespace ObjectiveWP\EnfoldChild\ShortCode;
+namespace ObjectiveWP\Framework\ShortCode;
 
-use ObjectiveWP\EnfoldChild\ShortCodes\ShortCode;
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
 use ObjectiveWP\Framework\Contracts\Kernel;
 
@@ -10,18 +9,18 @@ use ObjectiveWP\Framework\Contracts\Kernel;
  *
  * @package ObjectiveWP\EnfoldChild\Loaders
  */
-abstract class ShortCodesKernel implements Kernel
+abstract class ShortCodeKernel implements Kernel
 {
 
-    protected $plugin;
+    protected $app;
 
     /**
      * ShortCodesKernel constructor.
-     * @param Application $plugin
+     * @param Application $app
      */
-    public function __construct(Application $plugin)
+    public function __construct(Application $app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
     }
 
     /**
@@ -31,15 +30,19 @@ abstract class ShortCodesKernel implements Kernel
      */
     public abstract function shortCodes();
 
+
     /**
-     * Loads an array of short code classes
+     * Bootstrap the kernel
+     *
+     * @return void
      */
-    public function load()
+    public function bootstrap()
     {
         foreach ($this->shortCodes() as $shortCodeClass) {
             /** @var ShortCode $shortCode */
-            $shortCode = $this->plugin->getContainer()->get($shortCodeClass);
-            add_shortcode($shortCode->name(), [$shortCode, 'handle']);
+            $shortCode = $this->app->getContainer()->get($shortCodeClass);
+            add_shortcode($shortCode->tag(), [$shortCode, 'doHandle']);
         }
     }
+
 }

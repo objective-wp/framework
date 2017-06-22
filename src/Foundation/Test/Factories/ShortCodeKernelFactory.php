@@ -1,21 +1,21 @@
 <?php
 
-namespace ObjectiveWP\Framework\Foundation\Factories;
+namespace ObjectiveWP\Framework\Foundation\Test\Factories;
 
-use ObjectiveWP\Framework\Action\ActionHook;
-use ObjectiveWP\Framework\Action\ActionKernel;
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
+use ObjectiveWP\Framework\ShortCode\ShortCode;
+use ObjectiveWP\Framework\ShortCode\ShortCodeKernel;
 
-class ActionKernelFactory
+class ShortCodeKernelFactory
 {
     /**
      * @param Application $application
      * @param array $hooks
-     * @return ActionKernel
+     * @return ShortCodeKernel
      */
     public function makeKernel($application, $hooks =  []) {
-        /** @var ActionKernel $kernel */
-        $kernel = new class($application, $hooks) extends ActionKernel {
+        /** @var ShortCodeKernel $kernel */
+        $kernel = new class($application, $hooks) extends ShortCodeKernel {
 
             protected $injectedHooks;
 
@@ -30,14 +30,16 @@ class ActionKernelFactory
                 parent::__construct($app);
             }
 
+
+
             /**
-             * The actions to load
+             * Short codes to load
              *
-             * @return ActionHook[]
+             * @return ShortCode[]
              */
-            protected function actions(): array
+            public function shortCodes()
             {
-               return $this->injectedHooks;
+                return $this->injectedHooks;
             }
         };
         return $kernel;

@@ -5,7 +5,7 @@ namespace ObjectiveWP\Framework\Contracts\Hooks;
 interface HasTag
 {
     /**
-     * Get the name of the tag to hook onto
+     * Get the tag
      *
      * @return string
      */

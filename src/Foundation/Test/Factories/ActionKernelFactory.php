@@ -1,21 +1,21 @@
 <?php
 
-namespace ObjectiveWP\Framework\Foundation\Factories;
+namespace ObjectiveWP\Framework\Foundation\Test\Factories;
 
+use ObjectiveWP\Framework\Action\ActionHook;
+use ObjectiveWP\Framework\Action\ActionKernel;
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
-use ObjectiveWP\Framework\Filter\FilterHook;
-use ObjectiveWP\Framework\Filter\FilterKernel;
 
-class FilterKernelFactory
+class ActionKernelFactory
 {
     /**
      * @param Application $application
      * @param array $hooks
-     * @return FilterKernel
+     * @return ActionKernel
      */
     public function makeKernel($application, $hooks =  []) {
-        /** @var FilterKernel $kernel */
-        $kernel = new class($application, $hooks) extends FilterKernel {
+        /** @var ActionKernel $kernel */
+        $kernel = new class($application, $hooks) extends ActionKernel {
 
             protected $injectedHooks;
 
@@ -31,13 +31,13 @@ class FilterKernelFactory
             }
 
             /**
-             * The filters to load
+             * The actions to load
              *
-             * @return FilterHook[]
+             * @return ActionHook[]
              */
-            public function filters()
+            protected function actions(): array
             {
-                return $this->injectedHooks;
+               return $this->injectedHooks;
             }
         };
         return $kernel;
