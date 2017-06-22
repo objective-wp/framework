@@ -1,11 +1,11 @@
 <?php
 
-namespace ObjectiveWP\Framework\Tests\ShortCode;
+namespace ObjectiveWP\Framework\Tests\Unit\ShortCode;
 
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 use ObjectiveWP\Framework\ShortCode\ShortCode;
 
-class TestShortCode extends TestCase
+class ShortCodeTest extends TestCase
 {
     public function test_shortCode() {
         /** @var ShortCode $shortcode */

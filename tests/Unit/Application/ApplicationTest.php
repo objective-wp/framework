@@ -9,7 +9,7 @@ use ObjectiveWP\Framework\Contracts\Kernel;
 use ObjectiveWP\Framework\Foundation\Application;
 
 
-class TestApplication extends TestCase
+class ApplicationTest extends TestCase
 {
     public function test_container()
     {

@@ -1,17 +1,20 @@
 <?php
 
-namespace ObjectiveWP\Framework\Tests\Unit\Filter;
+namespace ObjectiveWP\Framework\Tests\Unit\Action;
 
+use ObjectiveWP\Framework\Action\ActionHook;
 use ObjectiveWP\Framework\Contracts\Hooks\HasArguments;
 use ObjectiveWP\Framework\Contracts\Hooks\HasPriority;
-use ObjectiveWP\Framework\Filter\FilterHook;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 
-class TestFilter extends TestCase
+class ActionTest extends TestCase
 {
-    public function test_filter() {
-        /** @var FilterHook $filter */
-        $filter = new class implements FilterHook, HasPriority, HasArguments {
+    /**
+     *
+     */
+    public function test_Action() {
+        /** @var ActionHook $action */
+        $action = new class implements ActionHook, HasPriority, HasArguments {
 
             /**
              * Handle the data given
@@ -55,11 +58,11 @@ class TestFilter extends TestCase
             }
         };
 
-        $this->assertEquals('init', $filter->tag());
-        $this->assertTrue(is_a($filter, HasPriority::class));
-        $this->assertEquals(20, $filter->priority());
-        $this->assertTrue(is_a($filter, HasArguments::class));
-        $this->assertEquals(2, $filter->acceptedArgs());
-        $this->assertEquals('hello world', $filter->handle('hello ', 'world'));
+        $this->assertEquals('init', $action->tag());
+        $this->assertTrue(is_a($action, HasPriority::class));
+        $this->assertEquals(20, $action->priority());
+        $this->assertTrue(is_a($action, HasArguments::class));
+        $this->assertEquals(2, $action->acceptedArgs());
+        $this->assertEquals('hello world', $action->handle('hello ', 'world'));
     }
 }

@@ -1,20 +1,17 @@
 <?php
 
-namespace ObjectiveWP\Framework\Tests\Unit\Action;
-
+namespace ObjectiveWP\Framework\Tests\Unit\Filter;
 
 use DI\Container;
-use ObjectiveWP\Framework\Action\ActionHook;
-use ObjectiveWP\Framework\Action\ActionKernel;
-use ObjectiveWP\Framework\Contracts\Kernel;
-use ObjectiveWP\Framework\Foundation\Application;
 use Mockery;
-use ObjectiveWP\Framework\Foundation\Test\Factories\ActionKernelFactory;
+use ObjectiveWP\Framework\Action\ActionHook;
+use ObjectiveWP\Framework\Contracts\Foundation\Application;
+use ObjectiveWP\Framework\Foundation\Test\Factories\FilterKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 
-class TestActionKernel extends TestCase
+class FilterKernelTest extends TestCase
 {
-    public function test_addAction() {
+    public function test_addFilter() {
         $container = Mockery::mock(Container::class);
 
         $app = Mockery::mock(Application::class);
@@ -25,9 +22,9 @@ class TestActionKernel extends TestCase
 
         $container->shouldReceive('get')->once()->andReturn($hook);
 
-        $factory = new ActionKernelFactory();
+        $factory = new FilterKernelFactory();
         $kernel = $factory->makeKernel($app, [
-            'TestApplication'
+            'ApplicationTest'
         ]);
 
         $kernel->bootstrap();
@@ -35,6 +32,3 @@ class TestActionKernel extends TestCase
     }
 
 }
-
-
-
