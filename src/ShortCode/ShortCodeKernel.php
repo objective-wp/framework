@@ -41,7 +41,7 @@ abstract class ShortCodeKernel implements Kernel
         foreach ($this->shortCodes() as $shortCodeClass) {
             /** @var ShortCode $shortCode */
             $shortCode = $this->app->getContainer()->get($shortCodeClass);
-            add_shortcode($shortCode->tag(), [$shortCode, 'doHandle']);
+            add_shortcode($shortCode->tag(), [$shortCode, 'handle']);
         }
     }
 

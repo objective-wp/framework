@@ -28,7 +28,7 @@ class FilterKernelTest extends TestCase
         ]);
 
         $kernel->bootstrap();
-
+        $this->assertFilterHookWasAdded('init', [$hook, 'handle']);
     }
 
 }

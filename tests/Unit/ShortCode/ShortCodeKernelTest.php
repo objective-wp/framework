@@ -30,5 +30,6 @@ class ShortCodeKernelTest extends TestCase
         ]);
 
         $kernel->bootstrap();
+            $this->assertShortCodeHookWasAdded('short_code_name', [$hook, 'handle']);
     }
 }
