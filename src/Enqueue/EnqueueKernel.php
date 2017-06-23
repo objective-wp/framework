@@ -55,7 +55,10 @@ abstract class EnqueueKernel implements Kernel
             if($newEnqueue instanceof HasArguments)
                 $acceptedArgs = $newEnqueue->acceptedArgs();
 
-            add_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
+            if(is_a($newEnqueue, AdminEnqueueHook::class))
+                add_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
+            else
+                add_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
         }
     }
 }
