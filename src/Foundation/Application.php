@@ -129,14 +129,6 @@ abstract class Application implements ApplicationContract
     }
 
     /**
-     * Gets the file location of the main entry point for this application
-     * @return string
-     */
-    public function getBootstrapFileLocation() : string {
-        return $this->bootStrapFileLocation;
-    }
-
-    /**
      * prefix the given value with the application's prefix
      * @param string $value The value to prefix
      * @return string The prefixed value
@@ -144,6 +136,16 @@ abstract class Application implements ApplicationContract
     public function prefix($value) : string {
         return $this->_prefix . '_' .  $value;
     }
+
+    /**
+     * Gets the file location of the main entry point for this application
+     * @return string
+     */
+    public function getBootstrapFileLocation() : string {
+        return $this->bootStrapFileLocation;
+    }
+
+
 
     /**
      * Gets the plugin Version
@@ -161,6 +163,24 @@ abstract class Application implements ApplicationContract
     public function getApplicationPath(): string
     {
         return $this->applicationPath;
+    }
+
+    /**
+     * Get a fully qualified uri for the given file
+     * @param string $relativePath The relative path
+     * @return string The fully qualified uri
+     */
+    public function getFileUri(string $relativePath) : string {
+        return $this->appUri . $relativePath;
+    }
+
+    /**
+     * Get a fully qualified path for the given file
+     * @param string $relativePath The relative path
+     * @return string The fully qualified path
+     */
+    public function getFilePath(string $relativePath) : string {
+        return $this->applicationPath . $relativePath;
     }
 
     /**

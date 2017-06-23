@@ -12,6 +12,21 @@ interface Application extends Kernel
      * @return string
      */
     public function getApplicationUri() : string;
+
+    /**
+     * Get a fully qualified uri for the given file
+     * @param string $relativePath The relative path
+     * @return string The fully qualified uri
+     */
+    public function getFileUri(string $relativePath) : string;
+
+    /**
+     * Get a fully qualified path for the given file
+     * @param string $relativePath The relative path
+     * @return string The fully qualified path
+     */
+    public function getFilePath(string $relativePath) : string;
+
     /**
      * Get the application's Text Domain
      * @return string The Text Domain
@@ -43,6 +58,7 @@ interface Application extends Kernel
      * @return string The prefix
      */
     public function getPrefix() : string;
+
     /**
      * Gets the file location of the main entry point for this application
      * @return string
