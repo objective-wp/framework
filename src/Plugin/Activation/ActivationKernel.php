@@ -3,12 +3,13 @@
 namespace ObjectiveWP\Framework\Plugin\Activation;
 
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
+use ObjectiveWP\Framework\Contracts\Kernel;
 
 /**
  * Class ActivationKernel
  * @package ObjectiveWP\Framework\Plugin\Activation
  */
-abstract class ActivationKernel
+abstract class ActivationKernel implements Kernel
 {
     protected $app;
 
@@ -24,10 +25,11 @@ abstract class ActivationKernel
     public abstract function activationHooks() : array;
 
     /**
-     * Loads an array of classes
+     * Bootstrap the kernel
+     *
+     * @return void
      */
-    public function load()
-    {
+    public function bootstrap() {
         foreach ($this->activationHooks() as $activation) {
             /** @var ActivationHook $newActivation */
             $newActivation = $this->app->getContainer()->get($activation);
