@@ -73,7 +73,8 @@ abstract class Application implements ApplicationContract
             $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions([
             ApplicationContract::class => $this,
-            Application::class => \DI\get(ApplicationContract::class)
+            Application::class => \DI\get(ApplicationContract::class),
+            get_class($this) => \DI\get(ApplicationContract::class)
         ]);
         if(!empty($definitions))
             $containerBuilder->addDefinitions($definitions);
