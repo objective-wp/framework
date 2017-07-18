@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/objective-wp/framework.svg?branch=master)](https://travis-ci.org/objective-wp/framework)
 [![Latest Stable Version](https://poser.pugx.org/objective-wp/framework/version)](https://packagist.org/packages/objective-wp/framework)
 [![Total Downloads](https://poser.pugx.org/objective-wp/framework/downloads)](https://packagist.org/packages/objective-wp/framework)
 [![Latest Unstable Version](https://poser.pugx.org/objective-wp/framework/v/unstable)](//packagist.org/packages/objective-wp/framework)
