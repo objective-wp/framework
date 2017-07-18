@@ -41,17 +41,28 @@ abstract class FilterKernel implements Kernel
     public function bootstrap()
     {
         foreach ($this->filters() as $filterClass) {
-            /** @var FilterHook $hook */
-            $hook = $this->plugin->getContainer()->get($filterClass);
-
-            $priority = 10;
-            if($hook instanceof HasPriority)
-                $priority = $hook->priority();
-            $acceptedArgs = 1;
-            if($hook instanceof HasArguments)
-                $acceptedArgs = $hook->acceptedArgs();
-
-            add_filter($hook->tag(), [$hook, 'handle'], $priority, $acceptedArgs);
+            $this->addFilter($filterClass);
         }
+    }
+
+    public function addFilter($filterClass) {
+        $hook = $this->plugin->getContainer()->get($filterClass);
+        $priority = 10;
+        if($hook instanceof HasPriority)
+            $priority = $hook->priority();
+        $acceptedArgs = 1;
+        if($hook instanceof HasArguments)
+            $acceptedArgs = $hook->acceptedArgs();
+
+        add_filter($hook->tag(), [$hook, 'handle'], $priority, $acceptedArgs);
+    }
+
+    public function removeFilter($filterClass) {
+        $hook = $this->plugin->getContainer()->get($filterClass);
+        $priority = 10;
+        if($hook instanceof HasPriority)
+            $priority = $hook->priority();
+
+        remove_filter($hook->tag(), [$hook, 'handle'], $priority);
     }
 }

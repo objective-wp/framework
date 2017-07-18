@@ -40,18 +40,35 @@ abstract class ActionKernel implements Kernel
      */
     public function bootstrap()
     {
-        foreach ($this->actions() as $action) {
-            /** @var ActionHook $newAction */
-            $newAction = $this->app->getContainer()->get($action);
+        foreach ($this->actions() as $action)
+            $this->addAction($action);
+    }
 
-            $priority = 10;
-            if($newAction instanceof HasPriority)
-                $priority = $newAction->priority();
-            $acceptedArgs = 1;
-            if($newAction instanceof HasArguments)
-                $acceptedArgs = $newAction->acceptedArgs();
 
-            add_action($newAction->tag(),  [$newAction, 'handle'], $priority, $acceptedArgs);
-        }
+    /**
+     * Add an action to a hook
+     * @param $actionClass
+     */
+    public function addAction($actionClass) {
+        /** @var ActionHook $newAction */
+        $newAction = $this->app->getContainer()->get($actionClass);
+
+        $priority = 10;
+        if($newAction instanceof HasPriority)
+            $priority = $newAction->priority();
+        $acceptedArgs = 1;
+        if($newAction instanceof HasArguments)
+            $acceptedArgs = $newAction->acceptedArgs();
+
+        add_action($newAction->tag(),  [$newAction, 'handle'], $priority, $acceptedArgs);
+    }
+
+    public function removeAction($actionClass) {
+        /** @var ActionHook $currentAction */
+        $currentAction = $this->app->getContainer()->get($actionClass);
+        $priority = 10;
+        if($currentAction instanceof HasPriority)
+            $priority = $currentAction->priority();
+        remove_action( $currentAction->tag(), [$currentAction, 'handle'], $priority );
     }
 }
