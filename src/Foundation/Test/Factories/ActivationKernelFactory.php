@@ -2,22 +2,20 @@
 
 namespace ObjectiveWP\Framework\Foundation\Test\Factories;
 
-use ObjectiveWP\Framework\Action\ActionHook;
-use ObjectiveWP\Framework\Action\ActionKernel;
 use ObjectiveWP\Framework\Contracts\Foundation\Application;
-use ObjectiveWP\Framework\Enqueue\EnqueueHook;
-use ObjectiveWP\Framework\Enqueue\EnqueueKernel;
+use ObjectiveWP\Framework\Plugin\Activation\ActivationHook;
+use ObjectiveWP\Framework\Plugin\Activation\ActivationKernel;
 
-class EnqueueKernelFactory
+class ActivationKernelFactory
 {
     /**
      * @param Application $application
      * @param array $hooks
-     * @return EnqueueKernel
+     * @return ActivationKernel
      */
     public function makeKernel($application, $hooks =  []) {
-        /** @var ActionKernel $kernel */
-        $kernel = new class($application, $hooks) extends EnqueueKernel {
+        /** @var ActivationKernel $kernel */
+        $kernel = new class($application, $hooks) extends ActivationKernel {
 
             protected $injectedHooks;
 
@@ -33,15 +31,15 @@ class EnqueueKernelFactory
             }
 
             /**
-             * The enqueues to load
-             *
-             * @return EnqueueHook[]
+             * The activation hooks to load
+             * @return ActivationHook[]
              */
-            public function enqueues()
+            public function activationHooks(): array
             {
                 return $this->injectedHooks;
             }
         };
+
         return $kernel;
     }
 }

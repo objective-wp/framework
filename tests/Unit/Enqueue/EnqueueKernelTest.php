@@ -10,45 +10,35 @@ use ObjectiveWP\Framework\Foundation\Application;
 use Mockery;
 use ObjectiveWP\Framework\Foundation\Test\Factories\EnqueueKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
+use WP_Mock;
 
 class EnqueueKernelTest extends TestCase
 {
-    public function test_addEnqueue() {
-        $container = Mockery::mock(Container::class);
-
-        $app = Mockery::mock(Application::class);
-        $app->shouldReceive('getContainer')->andReturn($container);
-
+    public function test_bootstrap() {
+        /** @var Mockery\Mock|EnqueueHook $hook */
         $hook = Mockery::mock(EnqueueHook::class);
-
-        $container->shouldReceive('get')->once()->andReturn($hook);
+        $this->mockContainer->shouldReceive('get')->once()->andReturn($hook);
 
         $factory = new EnqueueKernelFactory();
-        $kernel = $factory->makeKernel($app, [
+        $kernel = $factory->makeKernel($this->mockApp, [
             'ApplicationTest'
         ]);
-
+        WP_Mock::expectActionAdded('wp_enqueue_scripts',[$hook, 'handle']);
         $kernel->bootstrap();
-        $this->assertActionHookWasAdded('wp_enqueue_scripts', [$hook, 'handle']);
     }
 
-    public function test_addAdminEnqueue() {
-        $container = Mockery::mock(Container::class);
-
-        $app = Mockery::mock(Application::class);
-        $app->shouldReceive('getContainer')->andReturn($container);
-
+    public function test_addEnqueue_admin() {
+        /** @var Mockery\Mock|AdminEnqueueHook $hook */
         $hook = Mockery::mock(AdminEnqueueHook::class);
-
-        $container->shouldReceive('get')->once()->andReturn($hook);
+        $this->mockContainer->shouldReceive('get')->once()->andReturn($hook);
 
         $factory = new EnqueueKernelFactory();
-        $kernel = $factory->makeKernel($app, [
+        $kernel = $factory->makeKernel($this->mockApp, [
             'ApplicationTest'
         ]);
 
-        $kernel->bootstrap();
-        $this->assertActionHookWasAdded('admin_enqueue_scripts', [$hook, 'handle']);
+        WP_Mock::expectActionAdded('admin_enqueue_scripts',[$hook, 'handle']);
+        $kernel->addEnqueue(get_class($hook));
     }
 
 }

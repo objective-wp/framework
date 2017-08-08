@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "faa2cd766b69d0af4dde6b9374c7bbf6",
-    "content-hash": "21ca2ec5738b65092715c058b785a44a",
+    "hash": "08ad2c0da1a576d0c6e808b18f301ddc",
+    "content-hash": "25c0e613a0414ad872601b88943a312a",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -341,6 +341,89 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "10up/wp_mock",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/10up/wp_mock.git",
+                "reference": "507e59027e9b0d86eba9b74420962a72c4c2ec9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/10up/wp_mock/zipball/507e59027e9b0d86eba9b74420962a72c4c2ec9e",
+                "reference": "507e59027e9b0d86eba9b74420962a72c4c2ec9e",
+                "shasum": ""
+            },
+            "require": {
+                "antecedent/patchwork": "~2.0.3",
+                "mockery/mockery": "^0.9.5",
+                "php": ">=5.6",
+                "phpunit/phpunit": ">=4.3"
+            },
+            "conflict": {
+                "phpunit/phpunit": ">=6.0"
+            },
+            "require-dev": {
+                "behat/behat": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WP_Mock\\": "./php/WP_Mock"
+                },
+                "classmap": [
+                    "php/WP_Mock.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "A mocking library to take the pain out of unit testing for WordPress",
+            "time": "2017-07-19 03:10:11"
+        },
+        {
+            "name": "antecedent/patchwork",
+            "version": "2.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antecedent/patchwork.git",
+                "reference": "cab3be4865e47f1dc447715e76c7b616e48b005d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/cab3be4865e47f1dc447715e76c7b616e48b005d",
+                "reference": "cab3be4865e47f1dc447715e76c7b616e48b005d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignas Rudaitis",
+                    "email": "ignas.rudaitis@gmail.com"
+                }
+            ],
+            "description": "Method redefinition (monkey-patching) functionality for PHP.",
+            "homepage": "http://patchwork2.org/",
+            "keywords": [
+                "aop",
+                "aspect",
+                "interception",
+                "monkeypatching",
+                "redefinition",
+                "runkit",
+                "testing"
+            ],
+            "time": "2017-08-01 11:52:57"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",

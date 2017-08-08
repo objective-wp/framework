@@ -12,27 +12,24 @@ use Mockery;
 use ObjectiveWP\Framework\Foundation\Test\Factories\ActionKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\Factories\EnqueueKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
+use WP_Mock;
 
 class ActionKernelTest extends TestCase
 {
     public function test_addAction() {
-        $container = Mockery::mock(Container::class);
-
-        $app = Mockery::mock(Application::class);
-        $app->shouldReceive('getContainer')->andReturn($container);
-
+        /** @var ActionHook|Mockery\Mock $hook */
         $hook = Mockery::mock(ActionHook::class);
         $hook->shouldReceive('tag')->once()->andReturn('init');
 
-        $container->shouldReceive('get')->once()->andReturn($hook);
+        $this->mockContainer->shouldReceive('get')->once()->andReturn($hook);
 
         $factory = new ActionKernelFactory();
-        $kernel = $factory->makeKernel($app, [
+        $kernel = $factory->makeKernel($this->mockApp, [
             'ApplicationTest'
         ]);
 
+        WP_Mock::expectActionAdded('init',[$hook, 'handle']);
         $kernel->bootstrap();
-        $this->assertActionHookWasAdded('init', [$hook, 'handle']);
     }
 
 }

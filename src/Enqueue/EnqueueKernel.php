@@ -44,21 +44,43 @@ abstract class EnqueueKernel implements Kernel
      */
     public function bootstrap()
     {
-        foreach ($this->enqueues() as $enqueue) {
-            /** @var EnqueueHook $newEnqueue */
-            $newEnqueue = $this->app->getContainer()->get($enqueue);
+        foreach ($this->enqueues() as $enqueueClass)
+            $this->addEnqueue($enqueueClass);
+    }
 
-            $priority = 10;
-            if($newEnqueue instanceof HasPriority)
-                $priority = $newEnqueue->priority();
-            $acceptedArgs = 1;
-            if($newEnqueue instanceof HasArguments)
-                $acceptedArgs = $newEnqueue->acceptedArgs();
+    /**
+     * @param $enqueueClass
+     */
+    public function addEnqueue($enqueueClass) {
+        /** @var EnqueueHook $newEnqueue */
+        $newEnqueue = $this->app->getContainer()->get($enqueueClass);
 
-            if(is_a($newEnqueue, AdminEnqueueHook::class))
-                add_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
-            else
-                add_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
-        }
+        $priority = 10;
+        if($newEnqueue instanceof HasPriority)
+            $priority = $newEnqueue->priority();
+        $acceptedArgs = 1;
+        if($newEnqueue instanceof HasArguments)
+            $acceptedArgs = $newEnqueue->acceptedArgs();
+
+        if(is_a($newEnqueue, AdminEnqueueHook::class))
+            add_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
+        else
+            add_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
+    }
+
+
+    /**
+     * @param $enqueueClass
+     */
+    public function removeEnqueue($enqueueClass) {
+        /** @var EnqueueHook $newEnqueue */
+        $newEnqueue = $this->app->getContainer()->get($enqueueClass);
+        $priority = 10;
+        if($newEnqueue instanceof HasPriority)
+            $priority = $newEnqueue->priority();
+        if(is_a($newEnqueue, AdminEnqueueHook::class))
+            remove_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority);
+        else
+            remove_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority);
     }
 }

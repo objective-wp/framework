@@ -12,23 +12,18 @@ use ObjectiveWP\Framework\Foundation\Test\TestCase;
 class FilterKernelTest extends TestCase
 {
     public function test_addFilter() {
-        $container = Mockery::mock(Container::class);
-
-        $app = Mockery::mock(Application::class);
-        $app->shouldReceive('getContainer')->andReturn($container);
-
+        /** @var Mockery\Mock|ActionHook $hook */
         $hook = Mockery::mock(ActionHook::class);
         $hook->shouldReceive('tag')->once()->andReturn('init');
-
-        $container->shouldReceive('get')->once()->andReturn($hook);
+        $this->mockContainer->shouldReceive('get')->once()->andReturn($hook);
 
         $factory = new FilterKernelFactory();
-        $kernel = $factory->makeKernel($app, [
+        $kernel = $factory->makeKernel($this->mockApp, [
             'ApplicationTest'
         ]);
-
+        /** @noinspection PhpParamsInspection */
+        \WP_Mock::expectFilterAdded('init', [$hook, 'handle']);
         $kernel->bootstrap();
-        $this->assertFilterHookWasAdded('init', [$hook, 'handle']);
     }
 
 }

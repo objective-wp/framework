@@ -2,34 +2,35 @@
 
 namespace ObjectiveWP\Framework\Tests\Unit\ShortCode;
 
-use DI\Container;
 use Mockery;
 
 use ObjectiveWP\Framework\Foundation\Test\Factories\ShortCodeKernelFactory;
 use ObjectiveWP\Framework\ShortCode\ShortCode;
-use ObjectiveWP\Framework\Contracts\Foundation\Application;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
+use WP_Mock;
 
 
 class ShortCodeKernelTest extends TestCase
 {
     public function test_addShortCode() {
-        $container = Mockery::mock(Container::class);
-
-        $app = Mockery::mock(Application::class);
-        $app->shouldReceive('getContainer')->andReturn($container);
-
+        $tag = "short_code_name";
+        /** @var Mockery\Mock|ShortCode $hook */
         $hook = Mockery::mock(ShortCode::class);
-        $hook->shouldReceive('tag')->once()->andReturn('short_code_name');
+        $hook->shouldReceive('tag')->once()->andReturn($tag);
 
-        $container->shouldReceive('get')->once()->andReturn($hook);
+        $this->mockContainer->shouldReceive('get')->withArgs([get_class($hook)])->once()->andReturn($hook);
 
         $factory = new ShortCodeKernelFactory();
-        $kernel = $factory->makeKernel($app, [
-            'ApplicationTest'
+        $kernel = $factory->makeKernel($this->mockApp, [
+            get_class($hook)
         ]);
 
+        WP_Mock::userFunction( 'add_shortcode', array(
+            'args' => [$tag, [$hook, 'handle']],
+            'times' => 1,
+            'return' => 'true'
+        ) );
+
         $kernel->bootstrap();
-            $this->assertShortCodeHookWasAdded('short_code_name', [$hook, 'handle']);
     }
 }
