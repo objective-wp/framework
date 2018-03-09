@@ -4,6 +4,7 @@ namespace ObjectiveWP\Framework\Foundation\Test\Factories;
 
 use ObjectiveWP\Framework\Contracts\Kernel;
 use ObjectiveWP\Framework\Foundation\Application;
+use ObjectiveWP\Framework\Foundation\Test\Stubs\ApplicationStub;
 
 class ApplicationFactory
 {
@@ -15,25 +16,6 @@ class ApplicationFactory
      * @return Application
      */
     public function makeApplication($version, $baseUrl, $definitions = [], $kernels = []) {
-        /** @var Application $app */
-        $app =  new class($version, $baseUrl, $definitions, $kernels) extends Application {
-
-            protected $injectedKernels;
-
-            public function __construct($version, $applicationPath, $definitions = [], $kernels) {
-                parent::__construct($version, $applicationPath, $definitions = []);
-                $this->injectedKernels = $kernels;
-            }
-
-            /**
-             * A list of the kernels to bootstrap
-             * @return Kernel[]
-             */
-            protected function kernels()
-            {
-                return $this->injectedKernels;
-            }
-        };
-        return $app;
+        return new ApplicationStub($version, $baseUrl, $definitions, $kernels) ;
     }
 }

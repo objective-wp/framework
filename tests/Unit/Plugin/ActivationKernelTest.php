@@ -2,7 +2,6 @@
 
 namespace ObjectiveWP\Framework\Tests\Unit\Plugin;
 
-use ObjectiveWP\Framework\Foundation\Test\Factories\ActivationKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 use ObjectiveWP\Framework\Plugin\Activation\ActivationHook;
 use WP_Mock;
@@ -13,8 +12,8 @@ class ActivationKernelTest extends TestCase
         $hook = \Mockery::mock(ActivationHook::class);
         $this->mockApp->shouldReceive('getBootstrapFileLocation')->andReturn('file-location');
         $this->mockContainer->shouldReceive('get')->withArgs([get_class($hook)])->once()->andReturn($hook);
-        $factory = new ActivationKernelFactory();
-        $kernel = $factory->makeKernel($this->mockApp, [
+
+        $kernel = $this->kernelFactory->makeActivationKernel([
             get_class($hook)
         ]);
 

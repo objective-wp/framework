@@ -2,15 +2,8 @@
 
 namespace ObjectiveWP\Framework\Tests\Unit\Action;
 
-
-use DI\Container;
 use ObjectiveWP\Framework\Action\ActionHook;
-use ObjectiveWP\Framework\Action\ActionKernel;
-use ObjectiveWP\Framework\Contracts\Kernel;
-use ObjectiveWP\Framework\Foundation\Application;
 use Mockery;
-use ObjectiveWP\Framework\Foundation\Test\Factories\ActionKernelFactory;
-use ObjectiveWP\Framework\Foundation\Test\Factories\EnqueueKernelFactory;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 use WP_Mock;
 
@@ -23,10 +16,7 @@ class ActionKernelTest extends TestCase
 
         $this->mockContainer->shouldReceive('get')->once()->andReturn($hook);
 
-        $factory = new ActionKernelFactory();
-        $kernel = $factory->makeKernel($this->mockApp, [
-            'ApplicationTest'
-        ]);
+        $kernel = $this->kernelFactory->makeActionKernel(['ApplicationTest']);
 
         WP_Mock::expectActionAdded('init',[$hook, 'handle']);
         $kernel->bootstrap();

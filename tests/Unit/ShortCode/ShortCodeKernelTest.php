@@ -4,11 +4,9 @@ namespace ObjectiveWP\Framework\Tests\Unit\ShortCode;
 
 use Mockery;
 
-use ObjectiveWP\Framework\Foundation\Test\Factories\ShortCodeKernelFactory;
 use ObjectiveWP\Framework\ShortCode\ShortCode;
 use ObjectiveWP\Framework\Foundation\Test\TestCase;
 use WP_Mock;
-
 
 class ShortCodeKernelTest extends TestCase
 {
@@ -20,10 +18,7 @@ class ShortCodeKernelTest extends TestCase
 
         $this->mockContainer->shouldReceive('get')->withArgs([get_class($hook)])->once()->andReturn($hook);
 
-        $factory = new ShortCodeKernelFactory();
-        $kernel = $factory->makeKernel($this->mockApp, [
-            get_class($hook)
-        ]);
+        $kernel = $this->kernelFactory->makeShortCodeKernel([get_class($hook)]);
 
         WP_Mock::userFunction( 'add_shortcode', array(
             'args' => [$tag, [$hook, 'handle']],

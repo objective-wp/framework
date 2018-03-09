@@ -19,11 +19,11 @@ abstract class FilterKernel implements Kernel
 
     /**
      * FilterKernel constructor.
-     * @param Application $plugin
+     * @param Application $app
      */
-    public function __construct(Application $plugin)
+    public function __construct(Application $app)
     {
-        $this->plugin = $plugin;
+        $this->plugin = $app;
     }
 
     /**
