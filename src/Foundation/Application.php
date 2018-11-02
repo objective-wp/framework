@@ -48,6 +48,12 @@ abstract class Application implements ApplicationContract
      * @var string
      */
     protected $appUri;
+
+    /**
+     * @var array
+     */
+    protected $env = [];
+
     /**
      * Application constructor.
      * @param string $version
@@ -218,17 +224,48 @@ abstract class Application implements ApplicationContract
 
 
     /**
+     * Get an an environment variable.
+     * @param string $key     The environment key
+     * @param mixed  $default The default value if the variable is not found.
+     * @return bool|mixed
+     */
+    public function getEnv(string $key, $default = null)
+    {
+        if (isset($this->env[$key])) {
+            if ($this->env[$key] == 'false')
+                return false;
+            if ($this->env[$key] == 'true')
+                return true;
+            return $this->env[$key];
+        }
+        return $default;
+    }
+
+
+    /**
      * Bootstrap the kernel
      *
      * @return void
      */
     public function bootstrap()
     {
+        $envPath = $this->getFilePath(".env");
+        if (file_exists($envPath)) {
+            $file = file_get_contents($envPath);
+            $lines = explode("\n", $file);
+            foreach($lines as $line) {
+                $parts = explode("=", $line);
+                $this->env[trim($parts[0])] = trim($parts[1]);
+            }
+        }
+
         foreach ($this->kernels() as $kernelClass) {
             /** @var Kernel $kernel */
             $kernel = $this->container->get($kernelClass);
             $kernel->bootstrap();
         }
     }
+
+
 
 }

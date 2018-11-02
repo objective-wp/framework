@@ -90,4 +90,12 @@ interface Application extends Kernel
      */
     public function getContainer() : Container;
 
+    /**
+     * Get an an environment variable.
+     * @param string $key     The environment key
+     * @param mixed  $default The default value if the variable is not found.
+     * @return bool|mixed
+     */
+    public function getEnv(string $key, $default = null);
+
 }

@@ -8,6 +8,7 @@ use ObjectiveWP\Framework\Contracts\Hooks\HasArguments;
 use ObjectiveWP\Framework\Contracts\Hooks\HasPriority;
 use ObjectiveWP\Framework\Contracts\Kernel;
 use ObjectiveWP\Framework\Enqueue\EnqueueHook;
+use ObjectiveWP\Framework\Foundation\AppComponent;
 
 /**
  * Class EnqueueLoader
@@ -15,20 +16,8 @@ use ObjectiveWP\Framework\Enqueue\EnqueueHook;
  *
  * @package ObjectiveWP\EnfoldChild\Loaders
  */
-abstract class EnqueueKernel implements Kernel
+abstract class EnqueueKernel extends AppComponent implements Kernel
 {
-
-    protected $app;
-
-    /**
-     * EnqueueKernel constructor.
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * The enqueues to load
      *
@@ -41,46 +30,58 @@ abstract class EnqueueKernel implements Kernel
      * Loads an array of Enqueue classes
      *
      * @return void
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
     public function bootstrap()
     {
         foreach ($this->enqueues() as $enqueueClass)
-            $this->addEnqueue($enqueueClass);
+            $this->addEnqueue($this->app->getContainer()->get($enqueueClass));
     }
 
-    /**
-     * @param $enqueueClass
-     */
-    public function addEnqueue($enqueueClass) {
-        /** @var EnqueueHook $newEnqueue */
-        $newEnqueue = $this->app->getContainer()->get($enqueueClass);
-
+    public function addEnqueue($controller) {
         $priority = 10;
-        if($newEnqueue instanceof HasPriority)
-            $priority = $newEnqueue->priority();
-        $acceptedArgs = 1;
-        if($newEnqueue instanceof HasArguments)
-            $acceptedArgs = $newEnqueue->acceptedArgs();
+        if($controller instanceof HasPriority)
+            $priority = $controller->priority();
 
-        if(is_a($newEnqueue, AdminEnqueueHook::class))
-            add_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
-        else
-            add_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority, $acceptedArgs);
+        if($controller instanceof HasEnqueues)
+            add_action('wp_enqueue_scripts',  [$controller, 'handleEnqueues'], $priority, 0);
+
+        if($controller instanceof HasGlobalEnqueues) {
+            add_action('wp_enqueue_scripts',  [$controller, 'handleGlobalEnqueues'], $priority, 0);
+            add_action('admin_enqueue_scripts',  [$controller, 'handleGlobalEnqueues'], $priority, 0);
+        }
+
+        if($controller instanceof HasAdminEnqueues)
+            add_action('admin_enqueue_scripts',  [$controller, 'handleAdminEnqueues'], $priority, 0);
     }
 
 
     /**
      * @param $enqueueClass
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
-    public function removeEnqueue($enqueueClass) {
+    public function removeEnqueueClass($enqueueClass) {
         /** @var EnqueueHook $newEnqueue */
         $newEnqueue = $this->app->getContainer()->get($enqueueClass);
+        $this->removeEnqueue($newEnqueue);
+    }
+
+    public function removeEnqueue($controller) {
         $priority = 10;
-        if($newEnqueue instanceof HasPriority)
-            $priority = $newEnqueue->priority();
-        if(is_a($newEnqueue, AdminEnqueueHook::class))
-            remove_action('admin_enqueue_scripts',  [$newEnqueue, 'handle'], $priority);
-        else
-            remove_action('wp_enqueue_scripts',  [$newEnqueue, 'handle'], $priority);
+        if($controller instanceof HasPriority)
+            $priority = $controller->priority();
+
+        if($controller instanceof HasEnqueues)
+            remove_action('wp_enqueue_scripts',  [$controller, 'handleEnqueues'], $priority);
+
+        if($controller instanceof HasGlobalEnqueues) {
+            remove_action('wp_enqueue_scripts',  [$controller, 'handleGlobalEnqueues'], $priority);
+            remove_action('admin_enqueue_scripts',  [$controller, 'handleGlobalEnqueues'], $priority);
+        }
+
+        if($controller instanceof HasAdminEnqueues)
+            remove_action('admin_enqueue_scripts',  [$controller, 'handleAdminEnqueues'], $priority);
     }
 }
