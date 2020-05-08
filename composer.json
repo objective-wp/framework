@@ -1,5 +1,6 @@
 {
   "name": "objective-wp/framework",
+  "description": "",
   "keywords": ["objective", "wordpress", "framework", "objective-wp"],
   "type": "library",
   "license": "MIT",
